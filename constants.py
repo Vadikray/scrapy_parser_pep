@@ -2,7 +2,6 @@ from pathlib import Path
 
 # urls
 DOMAINS_PEP = 'peps.python.org'
-MAIN_PEP_URL = "https://peps.python.org/"
 
 # literals
 RESULTS = 'results'

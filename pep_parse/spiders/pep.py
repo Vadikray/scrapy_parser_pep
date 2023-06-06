@@ -3,28 +3,26 @@ import re
 import scrapy
 from pep_parse.items import PepParseItem
 
-from constants import MAIN_PEP_URL, DOMAINS_PEP
+from constants import DOMAINS_PEP
 
 
 class PepSpider(scrapy.Spider):
     name = 'pep'
     allowed_domains = [DOMAINS_PEP]
-    start_urls = [MAIN_PEP_URL]
+    start_urls = [f"https://{domain}/" for domain in allowed_domains]
 
     def parse(self, response):
-        pep_links = response.css(
+        for link in response.css(
             'section[id=numerical-index] tbody a::attr(href)'
-        )
-        for link in pep_links:
+        ):
             yield response.follow(link, callback=self.parse_pep)
 
     def parse_pep(self, response):
         name = response.css('h1.page-title::text').get()
-        number = re.search(r'\d+', name)
-        data = {
-            'number': number[0],
-            'name': name,
-            'status': response.css(
-                'dt:contains("Status") + dd abbr::text').get(),
-        }
-        yield PepParseItem(data)
+        number = re.search(r'\d+', name).group(0)
+        yield PepParseItem(
+            name=name,
+            number=number,
+            status=response.css(
+                'dt:contains("Status") + dd abbr::text').get()
+        )

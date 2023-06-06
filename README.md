@@ -24,5 +24,11 @@ python3 -m pip install --upgrade pip
 ```
 scrapy crawl pep
 ```
+
+## Технологии
+- Python v3.7.9
+- Scrapy v2.5.1
+
 ## Автор
 Конюшков В.А.
+https://t.me/Vadikray
