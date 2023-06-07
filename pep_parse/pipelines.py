@@ -22,7 +22,9 @@ class PepParsePipeline:
             time=datetime.now().strftime(DATETIME_FORMAT))
         with open(file_path, mode='w',
                   encoding='utf-8', newline='') as csvfile:
-            csv.writer(csvfile, dialect='excel').writerows([
+            csv.writer(
+                csvfile, dialect=csv.excel
+            ).writerows([
                 ['Статус', 'Количество'],
                 *(self.results.items()),
                 ['Всего', sum(self.results.values())]
